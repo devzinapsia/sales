@@ -1,3 +1,5 @@
+from markupsafe import Markup
+
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import formatLang
@@ -108,6 +110,7 @@ class PricelistMassUpdate(models.TransientModel):
                     count=len(self.preview_line_ids),
                 ),
                 'type': 'success',
+                'next': {'type': 'ir.actions.act_window_close'},
             },
         }
 
@@ -141,49 +144,52 @@ class PricelistMassUpdate(models.TransientModel):
     def _post_confirmation_message(self):
         self.ensure_one()
         currency = self.pricelist_id.currency_id
-        rows = "".join(
-            "<tr><td>%s</td><td>%s</td><td>%s</td></tr>" % (
+        rows = Markup("").join(
+            Markup("<tr><td>%s</td><td>%s</td><td>%s</td></tr>") % (
                 line.product_tmpl_id.display_name,
                 formatLang(self.env, line.current_price, currency_obj=currency),
                 formatLang(self.env, line.new_price, currency_obj=currency),
             )
             for line in self.preview_line_ids
         )
-        intro = _("<p>Mass price update process executed. %(adjustment)s</p>", adjustment=self._get_adjustment_description())
+        body = Markup("<p>%s</p>") % _(
+            "Mass price update process executed. %(adjustment)s",
+            adjustment=self._get_adjustment_description(),
+        )
         if self.reference_pricelist_id:
-            intro += _(
-                "<p>Previous prices were backed up in %s.</p>",
+            body += Markup("<p>%s</p>") % _(
+                "Previous prices were backed up in %s.",
                 self.reference_pricelist_id.display_name,
             )
-        body = intro + _(
+        body += Markup(
             "<table class=\"table table-sm\">"
-            "<thead><tr><th>Product</th><th>Previous price</th><th>New price</th></tr></thead>"
-            "<tbody>%(rows)s</tbody>"
-            "</table>",
-            rows=rows,
-        )
+            "<thead><tr><th>%s</th><th>%s</th><th>%s</th></tr></thead>"
+            "<tbody>%s</tbody>"
+            "</table>"
+        ) % (_("Product"), _("Previous price"), _("New price"), rows)
         self.pricelist_id.message_post(body=body)
 
     def _post_backup_message(self):
         self.ensure_one()
         currency = self.reference_pricelist_id.currency_id
-        rows = "".join(
-            "<tr><td>%s</td><td>%s</td></tr>" % (
+        rows = Markup("").join(
+            Markup("<tr><td>%s</td><td>%s</td></tr>") % (
                 line.product_tmpl_id.display_name,
                 formatLang(self.env, line.current_price, currency_obj=currency),
             )
             for line in self.preview_line_ids
         )
-        body = _(
-            "<p>Mass price update process executed on %(pricelist)s. "
-            "Prices from right before that update were backed up here.</p>"
-            "<table class=\"table table-sm\">"
-            "<thead><tr><th>Product</th><th>Backed-up price</th></tr></thead>"
-            "<tbody>%(rows)s</tbody>"
-            "</table>",
+        body = Markup("<p>%s</p>") % _(
+            "Mass price update process executed on %(pricelist)s. "
+            "Prices from right before that update were backed up here.",
             pricelist=self.pricelist_id.display_name,
-            rows=rows,
         )
+        body += Markup(
+            "<table class=\"table table-sm\">"
+            "<thead><tr><th>%s</th><th>%s</th></tr></thead>"
+            "<tbody>%s</tbody>"
+            "</table>"
+        ) % (_("Product"), _("Backed-up price"), rows)
         self.reference_pricelist_id.message_post(body=body)
 
     def _get_window_action(self):
