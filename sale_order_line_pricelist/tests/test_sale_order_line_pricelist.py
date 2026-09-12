@@ -146,6 +146,30 @@ class TestSaleOrderLinePricelist(TransactionCase):
         self.assertEqual(line.price_unit, 42.0)
         self.assertIn('warning', result)
 
+    def test_update_prices_button_does_not_touch_lines_with_a_different_pricelist(self):
+        line_same_pricelist = self.env['sale.order.line'].create({
+            'order_id': self.order.id,
+            'product_id': self.product.id,
+            'line_pricelist_id': self.order_pricelist.id,
+            'price_unit': self.order_pricelist.item_ids.fixed_price,
+        })
+        line_other_pricelist = self.env['sale.order.line'].create({
+            'order_id': self.order.id,
+            'product_id': self.product.id,
+            'line_pricelist_id': self.alt_pricelist.id,
+            'price_unit': self.alt_pricelist.item_ids.fixed_price,
+        })
+
+        # Change the order's own pricelist price, then trigger the "Update
+        # Prices" button: only the line matching the order's pricelist
+        # should be repriced.
+        self.order.pricelist_id.item_ids.fixed_price = 999.0
+        self.order.action_update_prices()
+
+        self.assertEqual(line_same_pricelist.price_unit, 999.0)
+        self.assertEqual(line_other_pricelist.price_unit, 250.0)
+        self.assertEqual(line_other_pricelist.line_pricelist_id, self.alt_pricelist)
+
     def test_line_pricelist_persists_after_reload(self):
         line = self.env['sale.order.line'].create({
             'order_id': self.order.id,
