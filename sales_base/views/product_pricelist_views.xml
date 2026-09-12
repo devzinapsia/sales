@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_pricelist_view_form_inherit_sales_base" model="ir.ui.view">
+        <field name="name">product.pricelist.form.inherit.sales.base</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_mass_price_update"
+                        type="object"
+                        string="Mass price update"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,223 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sales_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-12 00:02+0000\n"
+"PO-Revision-Date: 2026-09-12 00:02+0000\n"
+"Last-Translator: Zinapsia <dev@zinapsia.com>\n"
+"Language-Team: Spanish\n"
+"Language: es_AR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid " (based on reference price list %s)"
+msgstr " (basado en la lista de precios de referencia %s)"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid "%(count)s product prices were updated."
+msgstr "Se actualizaron %(count)s precios de productos."
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid ""
+"<p>Mass price update applied. %(adjustment)s</p><table class=\"table table-"
+"sm\"><thead><tr><th>Product</th><th>Previous price</th><th>New "
+"price</th></tr></thead><tbody>%(rows)s</tbody></table>"
+msgstr ""
+"<p>Actualización masiva de precios aplicada. %(adjustment)s</p><table "
+"class=\"table table-sm\"><thead><tr><th>Producto</th><th>Precio "
+"anterior</th><th>Precio "
+"nuevo</th></tr></thead><tbody>%(rows)s</tbody></table>"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__adjustment_type
+msgid "Adjustment type"
+msgstr "Tipo de ajuste"
+
+#. module: sales_base
+#: model_terms:ir.ui.view,arch_db:sales_base.pricelist_mass_update_view_form
+msgid "Back"
+msgstr "Atrás"
+
+#. module: sales_base
+#: model_terms:ir.ui.view,arch_db:sales_base.pricelist_mass_update_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: sales_base
+#: model:ir.model.fields.selection,name:sales_base.selection__sales_base_pricelist_mass_update__state__config
+msgid "Config"
+msgstr "Configuración"
+
+#. module: sales_base
+#: model_terms:ir.ui.view,arch_db:sales_base.pricelist_mass_update_view_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__create_uid
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__create_date
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__current_price
+msgid "Current price"
+msgstr "Precio actual"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_product_pricelist__display_name
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__display_name
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__fixed_amount
+#: model:ir.model.fields.selection,name:sales_base.selection__sales_base_pricelist_mass_update__adjustment_type__fixed
+msgid "Fixed amount"
+msgstr "Importe fijo"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid "Fixed amount: %s"
+msgstr "Importe fijo: %s"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_product_pricelist__id
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__id
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__write_uid
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__write_date
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+#: code:addons/sales_base/models/product_pricelist.py:0
+#: model_terms:ir.ui.view,arch_db:sales_base.pricelist_mass_update_view_form
+#: model_terms:ir.ui.view,arch_db:sales_base.product_pricelist_view_form_inherit_sales_base
+msgid "Mass price update"
+msgstr "Actualización masiva de precios"
+
+#. module: sales_base
+#: model:ir.model,name:sales_base.model_sales_base_pricelist_mass_update
+msgid "Mass price update wizard for pricelists"
+msgstr "Asistente de actualización masiva de precios de listas de precios"
+
+#. module: sales_base
+#: model:ir.model,name:sales_base.model_sales_base_pricelist_mass_update_line
+msgid "Mass price update wizard preview line"
+msgstr ""
+"Línea de vista previa del asistente de actualización masiva de precios"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__new_price
+msgid "New price"
+msgstr "Precio nuevo"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__percentage
+#: model:ir.model.fields.selection,name:sales_base.selection__sales_base_pricelist_mass_update__adjustment_type__percentage
+msgid "Percentage"
+msgstr "Porcentaje"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid "Percentage: %s%%"
+msgstr "Porcentaje: %s%%"
+
+#. module: sales_base
+#: model:ir.model.fields.selection,name:sales_base.selection__sales_base_pricelist_mass_update__state__preview
+msgid "Preview"
+msgstr "Vista previa"
+
+#. module: sales_base
+#: model_terms:ir.ui.view,arch_db:sales_base.pricelist_mass_update_view_form
+msgid "Preview changes"
+msgstr "Vista previa de los cambios"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__preview_line_ids
+msgid "Preview lines"
+msgstr "Líneas de vista previa"
+
+#. module: sales_base
+#: model:ir.model,name:sales_base.model_product_pricelist
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__pricelist_id
+msgid "Pricelist"
+msgstr "Lista de precios"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__pricelist_item_id
+msgid "Pricelist item"
+msgstr "Elemento de la lista de precios"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__product_tmpl_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__reference_price
+msgid "Reference price"
+msgstr "Precio de referencia"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__reference_pricelist_id
+msgid "Reference price list to copy from"
+msgstr "Lista de precios de referencia para pisar"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__round_to_integer
+msgid "Round to whole numbers"
+msgstr "Redondear a números enteros"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__state
+msgid "State"
+msgstr "Estado"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid "There are no Product-level items to update in pricelist %(pricelist)s."
+msgstr ""
+"No hay ítems de nivel Producto para actualizar en la lista de precios "
+"%(pricelist)s."
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__wizard_id
+msgid "Wizard"
+msgstr "Asistente"

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pricelist_mass_update_view_form" model="ir.ui.view">
+        <field name="name">sales_base.pricelist.mass.update.form</field>
+        <field name="model">sales_base.pricelist.mass.update</field>
+        <field name="arch" type="xml">
+            <form string="Mass price update">
+                <field name="state" invisible="1"/>
+                <group invisible="state != 'config'">
+                    <field name="pricelist_id" readonly="1"/>
+                    <field name="reference_pricelist_id"/>
+                    <field name="adjustment_type"/>
+                    <field name="percentage" invisible="adjustment_type != 'percentage'"/>
+                    <field name="fixed_amount" invisible="adjustment_type != 'fixed'"/>
+                    <field name="round_to_integer"/>
+                </group>
+                <field name="preview_line_ids" nolabel="1" invisible="state != 'preview'">
+                    <list create="false" delete="false">
+                        <field name="product_tmpl_id"/>
+                        <field name="current_price"/>
+                        <field name="reference_price" optional="show"/>
+                        <field name="new_price"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_preview"
+                            type="object"
+                            string="Preview changes"
+                            class="btn-primary"
+                            invisible="state != 'config'"/>
+                    <button name="action_back"
+                            type="object"
+                            string="Back"
+                            invisible="state != 'preview'"/>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirm"
+                            class="btn-primary"
+                            invisible="state != 'preview'"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
