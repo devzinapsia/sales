@@ -79,22 +79,66 @@ class TestPricelistMassUpdate(TransactionCase):
         self.assertAlmostEqual(lines[self.product_a].new_price, 80.0)
         self.assertAlmostEqual(lines[self.product_b].new_price, 30.0)
 
-    def test_reference_pricelist_mixed(self):
+    def test_new_price_ignores_backup_pricelist(self):
+        # The backup pricelist already has a different price for product_a (80.0), but
+        # the new price must always be computed from the main pricelist's own current
+        # price, never from the backup pricelist.
         wizard = self._create_wizard(
             reference_pricelist_id=self.reference_pricelist.id,
-            adjustment_type='fixed',
-            fixed_amount=10,
+            adjustment_type='percentage',
+            percentage=10,
         )
         wizard.action_preview()
         lines = {line.product_tmpl_id: line for line in wizard.preview_line_ids}
+        self.assertAlmostEqual(lines[self.product_a].new_price, 110.0)
+        self.assertAlmostEqual(lines[self.product_b].new_price, 55.0)
 
-        # product_a exists in the reference pricelist: its price (80.0) is used as base.
-        self.assertAlmostEqual(lines[self.product_a].reference_price, 80.0)
-        self.assertAlmostEqual(lines[self.product_a].new_price, 90.0)
+    def test_confirm_backs_up_previous_prices(self):
+        wizard = self._create_wizard(
+            reference_pricelist_id=self.reference_pricelist.id,
+            adjustment_type='fixed',
+            fixed_amount=25,
+        )
+        wizard.action_preview()
+        wizard.action_confirm()
 
-        # product_b doesn't exist in the reference pricelist: its own current price is used as base.
-        self.assertFalse(lines[self.product_b].reference_price)
-        self.assertAlmostEqual(lines[self.product_b].new_price, 60.0)
+        # product_a already had an item in the backup pricelist (80.0): it gets
+        # overwritten with the main pricelist's price from right before this update.
+        self.reference_item_a.invalidate_recordset()
+        self.assertAlmostEqual(self.reference_item_a.fixed_price, 100.0)
+
+        # product_b had no item in the backup pricelist: one is created with the main
+        # pricelist's price from right before this update.
+        backup_item_b = self.env['product.pricelist.item'].search([
+            ('pricelist_id', '=', self.reference_pricelist.id),
+            ('applied_on', '=', '1_product'),
+            ('product_tmpl_id', '=', self.product_b.id),
+        ])
+        self.assertEqual(len(backup_item_b), 1)
+        self.assertAlmostEqual(backup_item_b.fixed_price, 50.0)
+
+    def test_confirm_posts_chatter_message_on_backup_pricelist(self):
+        message_count_before = len(self.reference_pricelist.message_ids)
+        wizard = self._create_wizard(
+            reference_pricelist_id=self.reference_pricelist.id,
+            adjustment_type='percentage',
+            percentage=10,
+        )
+        wizard.action_preview()
+        wizard.action_confirm()
+        self.assertGreater(len(self.reference_pricelist.message_ids), message_count_before)
+
+    def test_no_backup_when_backup_pricelist_not_set(self):
+        items_before = self.env['product.pricelist.item'].search_count([
+            ('pricelist_id', '=', self.reference_pricelist.id),
+        ])
+        wizard = self._create_wizard(adjustment_type='percentage', percentage=10)
+        wizard.action_preview()
+        wizard.action_confirm()
+        items_after = self.env['product.pricelist.item'].search_count([
+            ('pricelist_id', '=', self.reference_pricelist.id),
+        ])
+        self.assertEqual(items_before, items_after)
 
     def test_round_to_integer(self):
         wizard = self._create_wizard(adjustment_type='fixed', fixed_amount=0.05)

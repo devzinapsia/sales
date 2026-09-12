@@ -20,5 +20,4 @@ class PricelistMassUpdateLine(models.TransientModel):
         string="Product",
     )
     current_price = fields.Float(string="Current price")
-    reference_price = fields.Float(string="Reference price")
     new_price = fields.Float(string="New price")

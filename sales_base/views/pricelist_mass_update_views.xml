@@ -19,7 +19,6 @@
                     <list create="false" delete="false">
                         <field name="product_tmpl_id"/>
                         <field name="current_price"/>
-                        <field name="reference_price" optional="show"/>
                         <field name="new_price"/>
                     </list>
                 </field>

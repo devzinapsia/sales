@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 00:02+0000\n"
-"PO-Revision-Date: 2026-09-12 00:02+0000\n"
+"POT-Creation-Date: 2026-09-12 00:26+0000\n"
+"PO-Revision-Date: 2026-09-12 00:26+0000\n"
 "Last-Translator: Zinapsia <dev@zinapsia.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -19,12 +19,6 @@ msgstr ""
 #. module: sales_base
 #. odoo-python
 #: code:addons/sales_base/models/pricelist_mass_update.py:0
-msgid " (based on reference price list %s)"
-msgstr " (basado en la lista de precios de referencia %s)"
-
-#. module: sales_base
-#. odoo-python
-#: code:addons/sales_base/models/pricelist_mass_update.py:0
 msgid "%(count)s product prices were updated."
 msgstr "Se actualizaron %(count)s precios de productos."
 
@@ -32,12 +26,39 @@ msgstr "Se actualizaron %(count)s precios de productos."
 #. odoo-python
 #: code:addons/sales_base/models/pricelist_mass_update.py:0
 msgid ""
-"<p>Mass price update applied. %(adjustment)s</p><table class=\"table table-"
-"sm\"><thead><tr><th>Product</th><th>Previous price</th><th>New "
+"<p>Mass price update process executed on %(pricelist)s. Prices from right "
+"before that update were backed up here.</p><table class=\"table table-"
+"sm\"><thead><tr><th>Product</th><th>Backed-up "
 "price</th></tr></thead><tbody>%(rows)s</tbody></table>"
 msgstr ""
-"<p>Actualización masiva de precios aplicada. %(adjustment)s</p><table "
-"class=\"table table-sm\"><thead><tr><th>Producto</th><th>Precio "
+"<p>Se ejecutó el proceso de actualización masiva de precios en "
+"%(pricelist)s. Se respaldaron aquí los precios de justo antes de esa "
+"actualización.</p><table class=\"table table-"
+"sm\"><thead><tr><th>Producto</th><th>Precio "
+"respaldado</th></tr></thead><tbody>%(rows)s</tbody></table>"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid "<p>Mass price update process executed. %(adjustment)s</p>"
+msgstr ""
+"<p>Se ejecutó el proceso de actualización masiva de precios. "
+"%(adjustment)s</p>"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid "<p>Previous prices were backed up in %s.</p>"
+msgstr "<p>Los precios anteriores se respaldaron en %s.</p>"
+
+#. module: sales_base
+#. odoo-python
+#: code:addons/sales_base/models/pricelist_mass_update.py:0
+msgid ""
+"<table class=\"table table-sm\"><thead><tr><th>Product</th><th>Previous "
+"price</th><th>New price</th></tr></thead><tbody>%(rows)s</tbody></table>"
+msgstr ""
+"<table class=\"table table-sm\"><thead><tr><th>Producto</th><th>Precio "
 "anterior</th><th>Precio "
 "nuevo</th></tr></thead><tbody>%(rows)s</tbody></table>"
 
@@ -50,6 +71,11 @@ msgstr "Tipo de ajuste"
 #: model_terms:ir.ui.view,arch_db:sales_base.pricelist_mass_update_view_form
 msgid "Back"
 msgstr "Atrás"
+
+#. module: sales_base
+#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__reference_pricelist_id
+msgid "Backup price list"
+msgstr "Lista de respaldo"
 
 #. module: sales_base
 #: model_terms:ir.ui.view,arch_db:sales_base.pricelist_mass_update_view_form
@@ -147,6 +173,18 @@ msgid "New price"
 msgstr "Precio nuevo"
 
 #. module: sales_base
+#: model:ir.model.fields,help:sales_base.field_sales_base_pricelist_mass_update__reference_pricelist_id
+msgid ""
+"Optional. When you confirm, the prices this pricelist had right before the "
+"update are saved here as a backup (a Product-level item is created for a "
+"product if one doesn't already exist here for it)."
+msgstr ""
+"Opcional. Al confirmar, se guardan aquí como respaldo los precios que tenía "
+"esta lista de precios justo antes de la actualización (se crea un ítem de "
+"nivel Producto para un producto si todavía no existe uno acá para ese "
+"producto)."
+
+#. module: sales_base
 #: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__percentage
 #: model:ir.model.fields.selection,name:sales_base.selection__sales_base_pricelist_mass_update__adjustment_type__percentage
 msgid "Percentage"
@@ -188,16 +226,6 @@ msgstr "Elemento de la lista de precios"
 #: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__product_tmpl_id
 msgid "Product"
 msgstr "Producto"
-
-#. module: sales_base
-#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update_line__reference_price
-msgid "Reference price"
-msgstr "Precio de referencia"
-
-#. module: sales_base
-#: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__reference_pricelist_id
-msgid "Reference price list to copy from"
-msgstr "Lista de precios de referencia para pisar"
 
 #. module: sales_base
 #: model:ir.model.fields,field_description:sales_base.field_sales_base_pricelist_mass_update__round_to_integer
