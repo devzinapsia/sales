@@ -27,18 +27,45 @@ class SaleOrderLine(models.Model):
             if not line.line_pricelist_id:
                 line.line_pricelist_id = line.order_id.pricelist_id
 
+    def _get_price_from_pricelist(self, pricelist):
+        """Compute this line's unit price from `pricelist`, converted to the
+        order's currency if `pricelist` uses a different one.
+
+        Used both by the onchange below and by the "Update Prices" button
+        override, so that a line with its own price list is always priced
+        from that list, not from the order's.
+        """
+        self.ensure_one()
+        price = pricelist._get_product_price(
+            self.product_id,
+            self.product_uom_qty or 1.0,
+            uom=self.product_uom_id,
+            date=self._get_order_date(),
+        )
+
+        order_currency = self.order_id.currency_id
+        pricelist_currency = pricelist.currency_id
+        if (
+            pricelist_currency
+            and order_currency
+            and pricelist_currency != order_currency
+        ):
+            price = pricelist_currency._convert(
+                price,
+                order_currency,
+                self.order_id.company_id,
+                self.order_id.date_order or fields.Date.context_today(self),
+            )
+
+        return price
+
     @api.onchange('line_pricelist_id')
     def _onchange_line_pricelist_id(self):
         for line in self:
             if not line.line_pricelist_id or not line.product_id:
                 continue
             try:
-                price = line.line_pricelist_id._get_product_price(
-                    line.product_id,
-                    line.product_uom_qty or 1.0,
-                    uom=line.product_uom_id,
-                    date=line._get_order_date(),
-                )
+                line.price_unit = line._get_price_from_pricelist(line.line_pricelist_id)
             except Exception:
                 return {'warning': {
                     'title': _("Price not found"),
@@ -50,19 +77,3 @@ class SaleOrderLine(models.Model):
                         pricelist=line.line_pricelist_id.display_name,
                     ),
                 }}
-
-            order_currency = line.order_id.currency_id
-            pricelist_currency = line.line_pricelist_id.currency_id
-            if (
-                pricelist_currency
-                and order_currency
-                and pricelist_currency != order_currency
-            ):
-                price = pricelist_currency._convert(
-                    price,
-                    order_currency,
-                    line.order_id.company_id,
-                    line.order_id.date_order or fields.Date.context_today(line),
-                )
-
-            line.price_unit = price
