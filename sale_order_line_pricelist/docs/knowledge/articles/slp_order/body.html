@@ -27,4 +27,9 @@
 </ul>
 <h2>Otras monedas</h2>
 <p>Si la lista elegida en la línea está en una moneda distinta a la del pedido, el precio se convierte a la moneda del pedido usando el tipo de cambio de la <strong>fecha del pedido</strong>.</p>
+<ul>
+<li>El botón <strong>Actualizar precios</strong> también usa el tipo de cambio de la fecha del pedido, no el del día en que se hace clic. En una cotización, la fecha del pedido es la fecha de cotización.</li>
+<li>Las reglas de descuento o de fórmula de una lista en otra moneda se calculan en la moneda de la lista. Por ejemplo, una tarifa adicional de 5 en una lista en dólares suma 5 dólares convertidos.</li>
+<li>La moneda tiene que tener sus tipos de cambio cargados (<strong>Contabilidad &gt; Configuración &gt; Monedas</strong>). Si no tiene ninguno, Odoo convierte 1 a 1 sin avisar.</li>
+</ul>
 <div class="o_editor_banner user-select-none o-contenteditable-false lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" data-oe-role="status"><i class="o_editor_banner_icon mb-3 fst-normal" data-oe-aria-label="Información">💡</i><div class="o_editor_banner_content o-contenteditable-true w-100 px-3"><p>Cambiar la lista de precios de una línea <strong>nunca</strong> cambia la lista de precios del encabezado ni el precio de las demás líneas.</p></div></div>

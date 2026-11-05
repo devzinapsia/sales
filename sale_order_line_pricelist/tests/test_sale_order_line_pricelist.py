@@ -300,3 +300,140 @@ class TestSaleOrderLinePricelist(TransactionCase):
         reloaded_line = self.env['sale.order.line'].browse(line.id)
         self.assertEqual(reloaded_line.line_pricelist_id, self.alt_pricelist)
         self.assertTrue(reloaded_line.line_pricelist_manual)
+
+    # ------------------------------------------------------------------
+    # Price lists in another currency than the order's one
+    # ------------------------------------------------------------------
+
+    @classmethod
+    def _create_currency(cls, name, rates):
+        """Create a currency with `rates`, a list of (date, rate) where rate
+        is the amount of this currency for 1 unit of company currency."""
+        return cls.env['res.currency'].create({
+            'name': name,
+            'symbol': name,
+            'rate_ids': [
+                Command.create({'name': date, 'rate': rate})
+                for date, rate in rates
+            ],
+        })
+
+    def _create_foreign_rule_pricelist(self, currency, **rule_vals):
+        return self.env['product.pricelist'].create({
+            'name': "Foreign rule price list",
+            'currency_id': currency.id,
+            'item_ids': [Command.create({
+                'applied_on': '1_product',
+                'product_tmpl_id': self.product.product_tmpl_id.id,
+                **rule_vals,
+            })],
+        })
+
+    def test_foreign_pricelist_uses_rate_of_order_date(self):
+        currency = self._create_currency("TC2", [('2025-01-01', 0.5)])
+        pricelist = self._create_pricelist("TC2 list", [(100.0, 0)], currency=currency)
+        order = self._create_order()
+        order.date_order = '2025-03-01 12:00:00'
+        line = self._add_line(order, pricelist=pricelist)
+        self.assertEqual(line.price_unit, 200.0)
+
+        # A newer rate (e.g. today's) is not used: the rate is the one of
+        # the order date, also when the prices are updated.
+        self.env['res.currency.rate'].create({
+            'currency_id': currency.id, 'name': '2025-06-01', 'rate': 0.25,
+        })
+        order.action_update_prices()
+        self.assertEqual(line.price_unit, 200.0)
+
+        # Moving the order date and updating the prices takes the new rate.
+        order.date_order = '2025-07-01 12:00:00'
+        order.action_update_prices()
+        self.assertEqual(line.price_unit, 400.0)
+
+    def test_foreign_pricelist_percentage_rule(self):
+        # 10% off the sales price (10, company currency): computed in the
+        # price list currency (10 -> 5 -> 4.5) and converted back: 9.
+        pricelist = self._create_foreign_rule_pricelist(
+            self.foreign_currency, compute_price='percentage', percent_price=10,
+        )
+        order = self._create_order()
+        line = self._add_line(order, pricelist=pricelist)
+        self.assertAlmostEqual(line.price_unit, 9.0)
+        self.assertEqual(line.discount, 0.0)
+
+    def test_foreign_pricelist_formula_rounds_and_adds_surcharge_in_its_currency(self):
+        # Sales price 10 = 5 in the price list currency; -10% = 4.5,
+        # rounded to 1.0 = 5, + 5 surcharge = 10 => 20 in the order's
+        # currency (it would be 14 if computed in the order's currency).
+        pricelist = self._create_foreign_rule_pricelist(
+            self.foreign_currency,
+            compute_price='formula',
+            base='list_price',
+            price_discount=10,
+            price_round=1.0,
+            price_surcharge=5.0,
+        )
+        order = self._create_order()
+        line = self._add_line(order, pricelist=pricelist)
+        self.assertAlmostEqual(line.price_unit, 20.0)
+
+    def test_foreign_pricelist_discount(self):
+        self.env.user.group_ids += self.env.ref('sale.group_discount_per_so_line')
+        pricelist = self._create_foreign_rule_pricelist(
+            self.foreign_currency, compute_price='percentage', percent_price=10,
+        )
+        order = self._create_order()
+        line = self._add_line(order, pricelist=pricelist)
+        # Shown as a discount: the sales price back in the order's currency
+        # and the rule's percentage.
+        self.assertAlmostEqual(line.price_unit, 10.0)
+        self.assertAlmostEqual(line.discount, 10.0)
+
+    def test_foreign_order_with_company_currency_line_pricelist(self):
+        order = self.env['sale.order'].create({
+            'partner_id': self.partner.id,
+            'pricelist_id': self.foreign_pricelist.id,
+        })
+        self.assertEqual(order.currency_id, self.foreign_currency)
+        following = self._add_line(order)
+        overridden = self._add_line(order, pricelist=self.order_pricelist)
+        self.assertEqual(following.price_unit, 100.0)
+        # 100 in company currency = 50 in the order's currency (rate 0.5).
+        self.assertEqual(overridden.price_unit, 50.0)
+
+    def test_order_pricelist_change_to_foreign_currency(self):
+        order = self._create_order()
+        following = self._add_line(order)
+        overridden = self._add_line(order, pricelist=self.alt_pricelist)
+
+        with Form(order) as order_form:
+            order_form.pricelist_id = self.foreign_pricelist
+        self.assertEqual(order.currency_id, self.foreign_currency)
+        self.assertEqual(following.line_pricelist_id, self.foreign_pricelist)
+        self.assertEqual(overridden.line_pricelist_id, self.alt_pricelist)
+        # Same as core: nothing is repriced until "Update Prices".
+        self.assertEqual(following.price_unit, 100.0)
+        self.assertEqual(overridden.price_unit, 250.0)
+
+        order.action_update_prices()
+        self.assertEqual(following.price_unit, 100.0)
+        # 250 in company currency = 125 in the order's new currency.
+        self.assertEqual(overridden.price_unit, 125.0)
+
+    def test_foreign_pricelist_order_date_before_first_rate(self):
+        # No rate on or before the order date: core takes the oldest rate.
+        currency = self._create_currency("TC3", [('2025-01-01', 0.5)])
+        pricelist = self._create_pricelist("TC3 list", [(100.0, 0)], currency=currency)
+        order = self._create_order()
+        order.date_order = '2024-06-01 12:00:00'
+        line = self._add_line(order, pricelist=pricelist)
+        self.assertEqual(line.price_unit, 200.0)
+
+    def test_foreign_pricelist_without_any_rate_converts_one_to_one(self):
+        # Core converts at 1:1, without any warning, when a currency has no
+        # rate at all: documents why its rates must be loaded.
+        currency = self._create_currency("TC4", [])
+        pricelist = self._create_pricelist("TC4 list", [(100.0, 0)], currency=currency)
+        order = self._create_order()
+        line = self._add_line(order, pricelist=pricelist)
+        self.assertEqual(line.price_unit, 100.0)
