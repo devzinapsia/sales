@@ -1,0 +1,30 @@
+<h1>3. Cómo se usa en el pedido de venta</h1>
+<p>Cada línea del pedido tiene una columna <strong>Lista de precios</strong>, ubicada antes del precio unitario. Permite que esa línea tome su precio de una lista distinta a la del encabezado, sin modificar el encabezado ni las demás líneas.</p>
+<h2>Cargar una línea con otra lista de precios</h2>
+<ol>
+<li>Ir a <strong>Ventas &gt; Órdenes &gt; Cotizaciones</strong> y abrir o crear un pedido.</li>
+<li>Hacer clic en <strong>Agregar un producto</strong>. La columna <strong>Lista de precios</strong> de la línea toma automáticamente la lista del encabezado.</li>
+<li>Elegir el <strong>producto</strong> y completar la <strong>cantidad</strong> (y la unidad de medida, si corresponde).</li>
+<li>En la columna <strong>Lista de precios</strong> de la línea, elegir la lista con la que se quiere cotizar esa línea. El <strong>precio unitario</strong> (y el descuento, si la regla de la lista es un descuento) se recalcula en el momento según esa lista.</li>
+<li>Guardar el pedido.</li>
+</ol>
+<p>El orden de los pasos 3 y 4 es indistinto: la lista de la línea se puede elegir antes o después del producto. Si después se cambia el producto, la cantidad o la unidad de medida, el precio se vuelve a calcular con la lista de la línea, incluyendo los precios por cantidad mínima.</p>
+<h2>Ejemplo: el mismo producto a dos precios</h2>
+<p>Con las listas del ejemplo del artículo 1 (Minorista: silla a 100; Mayorista: silla a 80), en un pedido con lista <strong>Minorista</strong> en el encabezado:</p>
+<table class="table table-bordered">
+<thead><tr><th>Producto</th><th>Cantidad</th><th>Lista de precios (línea)</th><th>Precio unitario</th></tr></thead>
+<tbody>
+<tr><td>Silla</td><td>2</td><td>Minorista</td><td>100</td></tr>
+<tr><td>Silla</td><td>3</td><td>Mayorista</td><td>80</td></tr>
+</tbody>
+</table>
+<p>El mismo producto queda en dos líneas separadas, cada una con su precio.</p>
+<h2>Qué listas se pueden elegir</h2>
+<ul>
+<li>Se ofrecen las listas de precios <strong>activas</strong> de la empresa del pedido, y las que no tienen empresa asignada.</li>
+<li>No se limita a las listas habituales del cliente: es un cambio manual para casos puntuales.</li>
+<li>Si la línea ya tiene cantidades facturadas, su lista de precios no se puede cambiar (igual que el precio unitario).</li>
+</ul>
+<h2>Otras monedas</h2>
+<p>Si la lista elegida en la línea está en una moneda distinta a la del pedido, el precio se convierte a la moneda del pedido usando el tipo de cambio de la <strong>fecha del pedido</strong>.</p>
+<div class="o_editor_banner user-select-none o-contenteditable-false lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" data-oe-role="status"><i class="o_editor_banner_icon mb-3 fst-normal" data-oe-aria-label="Información">💡</i><div class="o_editor_banner_content o-contenteditable-true w-100 px-3"><p>Cambiar la lista de precios de una línea <strong>nunca</strong> cambia la lista de precios del encabezado ni el precio de las demás líneas.</p></div></div>

@@ -7,7 +7,11 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/list/field[@name='price_unit']" position="before">
-                <field name="line_pricelist_id"/>
+                <field name="line_pricelist_manual" column_invisible="1"/>
+                <field name="line_pricelist_id"
+                       groups="product.group_product_pricelist"
+                       readonly="qty_invoiced &gt; 0"
+                       options="{'no_create': True}"/>
             </xpath>
         </field>
     </record>

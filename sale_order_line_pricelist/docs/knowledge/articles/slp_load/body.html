@@ -1,0 +1,41 @@
+<h1>1. Cómo se cargan las listas de precios</h1>
+<h2>Activar las listas de precios</h2>
+<p>Se hace una sola vez por base de datos. Requiere permisos de administrador.</p>
+<ol>
+<li>Ir a <strong>Ventas &gt; Configuración &gt; Ajustes</strong>.</li>
+<li>En la sección <strong>Precios</strong>, marcar la opción <strong>Listas de precios</strong>.</li>
+<li>Hacer clic en <strong>Guardar</strong>.</li>
+</ol>
+<p>A partir de ese momento aparece el menú <strong>Ventas &gt; Productos &gt; Listas de precios</strong>.</p>
+<h2>Crear una lista de precios</h2>
+<ol>
+<li>Ir a <strong>Ventas &gt; Productos &gt; Listas de precios</strong> y hacer clic en <strong>Nuevo</strong>.</li>
+<li>Completar el <strong>nombre</strong> de la lista (por ejemplo "Mayorista").</li>
+<li>Si se trabaja con varias monedas, elegir la <strong>Moneda</strong> de la lista. Si se trabaja con varias empresas, elegir la <strong>Empresa</strong> o dejarla vacía para que la lista esté disponible en todas.</li>
+<li>Opcionalmente, indicar los <strong>Grupos de países</strong> en los que se aplica la lista.</li>
+</ol>
+<h2>Cargar las reglas de precio</h2>
+<p>En la pestaña <strong>Precios de venta</strong> de la lista se agregan las reglas. Cada regla indica a qué productos se aplica y cómo se calcula el precio.</p>
+<ol>
+<li>Hacer clic en <strong>Agregar una línea</strong>. Se abre el formulario de la regla.</li>
+<li>En <strong>Aplicar a</strong>, elegir <strong>Producto</strong> o <strong>Categoría</strong> y seleccionar cuál. Si se deja vacío, la regla se aplica a todos los productos.</li>
+<li>En <strong>Tipo de precio</strong>, elegir cómo se calcula:
+<ul>
+<li><strong>Precio fijo</strong>: se indica directamente el precio del producto.</li>
+<li><strong>Descuento</strong>: un porcentaje sobre el precio de venta del producto.</li>
+<li><strong>Fórmula</strong>: un cálculo a partir del <strong>Precio de venta</strong>, del <strong>Costo</strong> o de <strong>Otra lista de precios</strong>, con descuento, margen de ganancia y redondeo.</li>
+</ul>
+</li>
+<li>Opcionalmente, completar la <strong>Cantidad mínima</strong> (la regla se aplica a partir de esa cantidad) y el <strong>Periodo de validez</strong> (fechas de inicio y de finalización).</li>
+<li>Guardar la regla y la lista.</li>
+</ol>
+<div class="o_editor_banner user-select-none o-contenteditable-false lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" data-oe-role="status"><i class="o_editor_banner_icon mb-3 fst-normal" data-oe-aria-label="Información">💡</i><div class="o_editor_banner_content o-contenteditable-true w-100 px-3"><p>Si un producto no tiene ninguna regla en la lista elegida, Odoo usa el <strong>precio de venta</strong> de la ficha del producto.</p></div></div>
+<h2>Ejemplo</h2>
+<table class="table table-bordered">
+<thead><tr><th>Lista de precios</th><th>Aplicar a</th><th>Tipo de precio</th><th>Cantidad mínima</th><th>Resultado</th></tr></thead>
+<tbody>
+<tr><td>Minorista</td><td>Producto "Silla"</td><td>Precio fijo: 100</td><td>0</td><td>La silla se vende a 100</td></tr>
+<tr><td>Mayorista</td><td>Producto "Silla"</td><td>Precio fijo: 80</td><td>0</td><td>La silla se vende a 80</td></tr>
+<tr><td>Mayorista</td><td>Producto "Silla"</td><td>Precio fijo: 70</td><td>10</td><td>Desde 10 unidades, a 70</td></tr>
+</tbody>
+</table>

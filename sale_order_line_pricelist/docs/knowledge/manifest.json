@@ -1,0 +1,73 @@
+{
+    "format_version": 1,
+    "odoo_series": "19.0",
+    "exported_at": "2026-11-05T00:00:00Z",
+    "articles": [
+        {
+            "key": "slp_guide",
+            "parent_key": null,
+            "sequence": 0,
+            "name": "Listas de precios en pedidos de venta",
+            "icon": "💲",
+            "full_width": false,
+            "is_article_item": false,
+            "body": "articles/slp_guide/body.html",
+            "cover": null,
+            "stages": [],
+            "stage_key": null,
+            "properties_definition": [],
+            "properties": {},
+            "attachments": []
+        },
+        {
+            "key": "slp_load",
+            "parent_key": "slp_guide",
+            "sequence": 1,
+            "name": "1. Cómo se cargan las listas de precios",
+            "icon": "📋",
+            "full_width": false,
+            "is_article_item": false,
+            "body": "articles/slp_load/body.html",
+            "cover": null,
+            "stages": [],
+            "stage_key": null,
+            "properties_definition": [],
+            "properties": {},
+            "attachments": []
+        },
+        {
+            "key": "slp_update",
+            "parent_key": "slp_guide",
+            "sequence": 2,
+            "name": "2. Cómo se actualizan los precios",
+            "icon": "🔄",
+            "full_width": false,
+            "is_article_item": false,
+            "body": "articles/slp_update/body.html",
+            "cover": null,
+            "stages": [],
+            "stage_key": null,
+            "properties_definition": [],
+            "properties": {},
+            "attachments": []
+        },
+        {
+            "key": "slp_order",
+            "parent_key": "slp_guide",
+            "sequence": 3,
+            "name": "3. Cómo se usa en el pedido de venta",
+            "icon": "🛒",
+            "full_width": false,
+            "is_article_item": false,
+            "body": "articles/slp_order/body.html",
+            "cover": null,
+            "stages": [],
+            "stage_key": null,
+            "properties_definition": [],
+            "properties": {},
+            "attachments": []
+        }
+    ],
+    "attachments": [],
+    "warnings": []
+}

@@ -1,6 +1,6 @@
-=========================
+==========================
 Sale order line price list
-=========================
+==========================
 
 .. |badge1| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
@@ -12,12 +12,17 @@ This module adds a **Price list** field to each sale order line
 (``line_pricelist_id``), independent of the order's own price list
 (``pricelist_id``).
 
-By default, a new line takes the order's price list, exactly like today.
-The user can then pick a different, active price list on that specific
-line only, without affecting the order's price list or any other line.
-Changing a line's price list recomputes that line's unit price right
-away, converting it to the order's currency when the two price lists use
-different currencies.
+A new line takes the order's price list. The user can then pick a
+different, active price list on that specific line only, without affecting
+the order's price list or any other line.
+
+The line's price list is used by every price computation of the line, the
+same way Odoo uses the order's price list: when the line's price list,
+product, quantity or unit of measure changes, and when the **Update
+Prices** button is used. This includes quantity tiers, discount rules,
+taxes included in the price with fiscal position mapping, and the
+conversion to the order's currency when the line's price list uses a
+different currency.
 
 This makes it possible, for example, to add the same product twice on the
 same order with two different prices, each coming from a different price
@@ -31,8 +36,9 @@ list.
 Configuration
 =============
 
-No configuration is needed. The **Price list** column is available on
-every sale order line, to any user who can edit sale orders.
+The **Price list** column of the order lines is shown to the users of the
+price list feature (*Sales > Configuration > Settings > Pricelists*), the
+same ones who see the order's own **Pricelist** field.
 
 The field only offers active price lists of the order's own company (or
 price lists shared across all companies) - it is not restricted to the
@@ -48,21 +54,32 @@ Usage
    equal to the order's own price list.
 #. To price a specific line from a different price list, pick another
    price list in that line's **Price list** column. The line's unit price
-   is recalculated immediately from the new price list.
-
-   * If the chosen price list has no rule for that product, the price is
-     taken from the product's own sales price, converted to the order's
-     currency if needed - same fallback Odoo already applies for the
-     order's own price list.
-   * If the chosen price list uses a different currency than the order,
-     the resulting unit price is converted to the order's currency using
-     the current exchange rate.
-
+   (and discount, if the price list rule is a discount) is recalculated
+   immediately from the new price list. Later changes of the line's
+   product, quantity or unit of measure keep using that price list.
 #. This lets the same product appear more than once on the same order,
    each line priced from a different price list.
 
-Changing a line's **Price list** never changes the order's own
-**Pricelist** field, nor any other line's price.
+Notes:
+
+* If the chosen price list has no rule for that product, the price is
+  taken from the product's own sales price - same fallback Odoo already
+  applies for the order's own price list.
+* If the chosen price list uses a different currency than the order, the
+  unit price is converted to the order's currency at the exchange rate of
+  the order date.
+* Changing a line's **Price list** never changes the order's own
+  **Pricelist** field, nor any other line's price.
+
+Changing the order's price list:
+
+* Lines whose price list was not changed on the line follow the order: they
+  switch to the order's new price list. Lines with a price list chosen on
+  the line keep it. Picking the order's price list again on a line makes it
+  follow the order again.
+* As in standard Odoo, changing the order's price list does not reprice the
+  lines by itself: use the **Update Prices** button next to it. Each line
+  is then repriced from its own price list.
 
 Bug Tracker
 ===========

@@ -1,0 +1,24 @@
+<h1>2. Cómo se actualizan los precios</h1>
+<p>"Actualizar precios" puede significar dos cosas distintas: cambiar los precios de una lista, o recalcular los precios de un pedido que ya está cargado.</p>
+<h2>Modificar los precios de una lista</h2>
+<ol>
+<li>Ir a <strong>Ventas &gt; Productos &gt; Listas de precios</strong> y abrir la lista.</li>
+<li>En la pestaña <strong>Precios de venta</strong>, modificar las reglas existentes o agregar reglas nuevas.</li>
+<li>Guardar.</li>
+</ol>
+<p>Los nuevos precios se aplican a las líneas que se carguen <strong>a partir de ese momento</strong>. Los pedidos ya cargados <strong>no cambian solos</strong>: conservan el precio que tenían.</p>
+<div class="o_editor_banner user-select-none o-contenteditable-false lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" data-oe-role="status"><i class="o_editor_banner_icon mb-3 fst-normal" data-oe-aria-label="Información">💡</i><div class="o_editor_banner_content o-contenteditable-true w-100 px-3"><p>Para programar un cambio de precios a futuro sin borrar el precio actual, se puede cargar una regla nueva con su <strong>Periodo de validez</strong>. Odoo toma la regla vigente según la fecha del pedido.</p></div></div>
+<h2>Recalcular los precios de un pedido: botón "Actualizar precios"</h2>
+<p>En un pedido en estado <strong>Cotización</strong>, al cambiar la <strong>Lista de precios del encabezado</strong> (o la empresa) aparece, al lado de ese campo, el botón <strong>Actualizar precios</strong>.</p>
+<ol>
+<li>Cambiar la lista de precios del encabezado.</li>
+<li>Hacer clic en <strong>Actualizar precios</strong> y confirmar el mensaje.</li>
+</ol>
+<p>Al cambiar la lista del encabezado, la columna <strong>Lista de precios</strong> de las líneas se comporta así:</p>
+<ul>
+<li>Las líneas que tenían la lista del encabezado (no se les eligió otra) <strong>pasan a la nueva lista</strong> del encabezado.</li>
+<li>Las líneas a las que se les eligió otra lista en la propia línea <strong>conservan su lista</strong>.</li>
+</ul>
+<p>Cambiar la lista del encabezado <strong>no modifica los precios por sí solo</strong>. Al hacer clic en <strong>Actualizar precios</strong>, cada línea se recalcula según la lista que figura en su columna "Lista de precios".</p>
+<p>El botón no está disponible en pedidos confirmados ni cancelados.</p>
+<div class="o_editor_banner user-select-none o-contenteditable-false lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" data-oe-role="status"><i class="o_editor_banner_icon mb-3 fst-normal" data-oe-aria-label="Información">💡</i><div class="o_editor_banner_content o-contenteditable-true w-100 px-3"><p>Si a una línea con otra lista se le vuelve a elegir la lista del encabezado, esa línea vuelve a seguir al encabezado en los próximos cambios.</p></div></div>
